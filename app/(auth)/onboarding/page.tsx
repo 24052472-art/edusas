@@ -2,7 +2,7 @@
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
-import { GraduationCap, BookOpen } from 'lucide-react'
+import { GraduationCap, BookOpen, ShieldCheck } from 'lucide-react'
 import { useAuth } from '@/hooks/useAuth'
 import { createUserProfile } from '@/services/core/authService'
 import { Button } from '@/components/ui/Button'
@@ -22,6 +22,12 @@ const roles: { id: UserRole; label: string; description: string; icon: React.Rea
     description: 'Upload notes, build followers, share knowledge',
     icon: <BookOpen size={28} />,
   },
+  {
+    id: 'admin',
+    label: 'Admin',
+    description: 'Manage users, content, branches and platform settings',
+    icon: <ShieldCheck size={28} />,
+  },
 ]
 
 export default function OnboardingPage() {
@@ -38,6 +44,8 @@ export default function OnboardingPage() {
       await refreshUser()
       if (selectedRole === 'teacher') {
         router.push('/teacher/dashboard')
+      } else if (selectedRole === 'admin') {
+        router.push('/admin/dashboard')
       } else {
         router.push('/student/dashboard')
       }
