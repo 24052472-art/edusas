@@ -15,7 +15,7 @@ export function useNotes(filters: NoteFilter = {}) {
       setLoading(false)
     })
     return unsubscribe
-  }, [filters.branchId, filters.subjectId, filters.category])
+  }, [filters.branchId, filters.subjectId, filters.category, filters.status, filters.search])
 
   return { notes, loading, error }
 }
