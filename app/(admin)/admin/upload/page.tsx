@@ -135,7 +135,7 @@ export default function AdminUploadPage() {
                     Browse PDF
                     <input type="file" accept=".pdf" className="hidden" onChange={e => {
                       const file = e.target.files?.[0]
-                      if (file) setForm(f => ({ ...f, file }))
+                      if (file && file.type === 'application/pdf' && file.size <= 50 * 1024 * 1024) setForm(f => ({ ...f, file }))
                     }} />
                   </label>
                 </div>

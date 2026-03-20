@@ -11,6 +11,7 @@ import {
   onSnapshot,
   arrayUnion,
   arrayRemove,
+  increment,
 } from 'firebase/firestore'
 import { db } from '../core/firebase'
 import { User } from '@/types/user'
@@ -52,20 +53,21 @@ export async function updateUserRole(uid: string, role: UserRole): Promise<void>
 export async function saveNote(userId: string, noteId: string): Promise<void> {
   await updateDoc(doc(db, FIRESTORE_COLLECTIONS.USERS, userId), {
     savedNotes: arrayUnion(noteId),
-    'stats.totalSaved': ((await getUserById(userId))?.stats?.totalSaved || 0) + 1,
+    'stats.totalSaved': increment(1),
   })
 }
 
 export async function unsaveNote(userId: string, noteId: string): Promise<void> {
   await updateDoc(doc(db, FIRESTORE_COLLECTIONS.USERS, userId), {
     savedNotes: arrayRemove(noteId),
+    'stats.totalSaved': increment(-1),
   })
 }
 
 export async function recordDownload(userId: string, noteId: string): Promise<void> {
   await updateDoc(doc(db, FIRESTORE_COLLECTIONS.USERS, userId), {
     downloadHistory: arrayUnion(noteId),
-    'stats.totalDownloads': ((await getUserById(userId))?.stats?.totalDownloads || 0) + 1,
+    'stats.totalDownloads': increment(1),
     'stats.lastActive': new Date().toISOString(),
   })
 }

@@ -1,10 +1,11 @@
 'use client'
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { Search } from 'lucide-react'
+import { Search, CheckCircle, XCircle } from 'lucide-react'
 import { getAllTeachers, verifyTeacher } from '@/services/modules/teachersService'
 import { Teacher } from '@/types/teacher'
 import { Badge } from '@/components/ui/Badge'
+import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
 import { TeacherCard } from '@/components/teacher/TeacherCard'
 import { TeacherCardSkeleton } from '@/components/ui/Skeleton'
@@ -28,8 +29,11 @@ export default function TeachersPage() {
     t.displayName?.toLowerCase().includes(search.toLowerCase())
   )
 
-  // Expose verifyTeacher for future use; referenced to avoid lint warning
-  void verifyTeacher
+  const handleVerify = async (uid: string, verified: boolean) => {
+    await verifyTeacher(uid, !verified)
+    toast.success(verified ? 'Verification removed' : 'Teacher verified!')
+    fetchTeachers()
+  }
 
   return (
     <div className="space-y-6">

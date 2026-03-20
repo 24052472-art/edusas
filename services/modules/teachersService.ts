@@ -41,8 +41,8 @@ export async function followTeacher(userId: string, teacherId: string): Promise<
   await updateDoc(doc(db, FIRESTORE_COLLECTIONS.USERS, userId), {
     followingTeachers: arrayUnion(teacherId),
   })
-  await updateDoc(doc(db, FIRESTORE_COLLECTIONS.USERS, teacherId), {
-    'followers': increment(1),
+  await updateDoc(doc(db, FIRESTORE_COLLECTIONS.TEACHERS, teacherId), {
+    followers: increment(1),
   })
 }
 
@@ -50,8 +50,8 @@ export async function unfollowTeacher(userId: string, teacherId: string): Promis
   await updateDoc(doc(db, FIRESTORE_COLLECTIONS.USERS, userId), {
     followingTeachers: arrayRemove(teacherId),
   })
-  await updateDoc(doc(db, FIRESTORE_COLLECTIONS.USERS, teacherId), {
-    'followers': increment(-1),
+  await updateDoc(doc(db, FIRESTORE_COLLECTIONS.TEACHERS, teacherId), {
+    followers: increment(-1),
   })
 }
 
