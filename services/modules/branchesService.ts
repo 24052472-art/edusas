@@ -48,10 +48,8 @@ export async function createSubject(subject: Omit<Subject, 'id' | 'createdAt'>):
 
 export async function getSubjectsByBranch(branchId: string): Promise<Subject[]> {
   const subjectsCol = collection(db, FIRESTORE_COLLECTIONS.SUBJECTS)
-  const snapshot = await getDocs(query(subjectsCol, orderBy('name')))
-  return snapshot.docs
-    .map(d => ({ id: d.id, ...d.data() }) as Subject)
-    .filter(s => s.branchId === branchId)
+  const snapshot = await getDocs(query(subjectsCol, where('branchId', '==', branchId), orderBy('name')))
+  return snapshot.docs.map(d => ({ id: d.id, ...d.data() }) as Subject)
 }
 
 export function subscribeToBranches(callback: (branches: Branch[]) => void): () => void {

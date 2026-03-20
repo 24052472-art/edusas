@@ -20,7 +20,7 @@ import { FIRESTORE_COLLECTIONS } from '@/lib/constants'
 const teachersCol = collection(db, FIRESTORE_COLLECTIONS.TEACHERS)
 
 export async function getTeacherById(id: string): Promise<Teacher | null> {
-  const docSnap = await getDoc(doc(db, FIRESTORE_COLLECTIONS.USERS, id))
+  const docSnap = await getDoc(doc(db, FIRESTORE_COLLECTIONS.TEACHERS, id))
   if (docSnap.exists()) return docSnap.data() as Teacher
   return null
 }
